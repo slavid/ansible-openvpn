@@ -40,10 +40,75 @@
       state: started
       enabled: true
 
-  - name: Reglas IPtables
-    copy:
-      src: ./rules.v4
-      dest: /etc/iptables/rules.v4
+  # - name: Reglas IPtables
+  #   copy:
+  #     src: ./rules.v4
+  #     dest: /etc/iptables/rules.v4
+  #   notify:
+  #     - Reboot computer
+
+  - name: Enabling NAT
+    iptables:
+      table: nat
+      chain: POSTROUTING
+      out_interface: tun0
+      jump: MASQUERADE
+
+  - name: Allowing any traffic from eth0 (internal) to go over tun0 (tunnel)
+    iptables:
+      chain: FORWARD
+      in_interface: eth0
+      out_interface: tun0
+      jump: ACCEPT
+
+  - name: Allowing traffic from tun0 (tunnel) to go back over eth0 (internal)
+    iptables:
+      chain: FORWARD
+      in_interface: tun0
+      out_interface: eth0
+      ctstate: RELATED,ESTABLISHED
+      jump: ACCEPT
+
+  - name: Allowing own host loopback traffic
+    iptables:
+      chain: INPUT
+      in_interface: lo
+      jump: ACCEPT
+
+  - name: Allowing computers on the local network to ping host
+    iptables:
+      chain: INPUT
+      in_interface: eth0
+      protocol: icmp
+      jump: ACCEPT
+
+  - name: Allowing SSH from the internal network
+    iptables:
+      chain: INPUT
+      in_interface: eth0
+      protocol: tcp
+      destination_port: 22
+      jump: ACCEPT
+
+  - name: Allowing all traffic initiated by host to return
+    iptables:
+      chain: INPUT
+      ctstate: ESTABLISHED,RELATED
+      jump: ACCEPT
+
+  - name: If forward traffic doesn't match any of the the rules specified it will be dropped
+    iptables:
+      chain: FORWARD
+      policy: DROP
+
+  - name: If input traffic doesn't match any of the the rules specified it will be dropped
+    iptables:
+      chain: INPUT
+      policy: DROP
+
+  - name: Save IPtables
+    shell:
+      cmd: iptables-save > /etc/iptables/rules.v4
     notify:
       - Reboot computer
 

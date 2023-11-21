@@ -21,6 +21,8 @@ Vagrant.configure("2") do |config|
   #   pacman -Sy python3 ansible --needed --noconfirm
   # SHELL
 
+  config.vm.network :private_network, ip: "192.168.56.42"
+
   provisioner = Vagrant::Util::Platform.windows? ? :guest_ansible : :ansible
   puts "Provisioner that will be used: #{provisioner}"
   config.vm.provision provisioner do |ansible|
