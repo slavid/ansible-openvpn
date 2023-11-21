@@ -2,8 +2,6 @@
 
 ## TODO
 
-[ ] README file
-
-[ ] Inventory file
-
-[] Edit rules.v4
+- [ ] README file
+- [ ] Inventory file
+- [] Edit rules.v4
