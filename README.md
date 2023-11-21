@@ -4,4 +4,4 @@
 
 - [ ] README file
 - [ ] Inventory file
-- [] Edit rules.v4
+- [ ] Edit rules.v4
