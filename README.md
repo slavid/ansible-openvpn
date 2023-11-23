@@ -3,5 +3,5 @@
 ## TODO
 
 - [ ] README file
-- [ x ] Inventory file
-- [ x ] Edit rules.v4
+- [x] Inventory file
+- [x] Edit rules.v4
