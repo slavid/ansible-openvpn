@@ -1,0 +1,13 @@
+---
+# Nombre del contenedor OpenVPN
+openvpn_container_name: "openvpn-client"
+
+# Nombre de la red de Docker que se está utilizando
+docker_network_name: "vpn_net"
+
+# Lista de IPs origen que se deben enrutar a través de la VPN
+source_ips:
+  - "192.168.1.131"  # Ejemplo de IP de la TV
+#  - "192.168.1.35"  # Otra IP de dispositivo si es necesario
+
+ansible_become_password: "raspberry"

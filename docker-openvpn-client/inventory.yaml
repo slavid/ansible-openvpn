@@ -1,0 +1,6 @@
+raspberry_4:
+  hosts:
+    k3s-master:
+      ansible_host: 192.168.1.38
+  vars:
+    ansible_user: pi
